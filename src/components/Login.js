@@ -9,6 +9,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
+import TextField from '@material-ui/core/TextField';
 
 import '../css/Nav.css';
 
@@ -32,6 +33,34 @@ class Login extends Component {
     this.setState({ open: false });
   };
 
+  handleLogin  = () => {
+    axios.get(SERVER_ADDRESS+'/login', {
+      params: {
+        email:                  this.state.email,
+        password:               this.state.password,
+      }
+    })
+    .then((response) => {
+      this.props.loggedIn(response.data.result.token);
+      this.handleClose(); 
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
+  };
+
+  handleEmailChange = (event) => {
+    this.setState({
+      email: event.target.value
+    });
+  };
+
+  handlePasswordChange = (event) => {
+    this.setState({
+      password: event.target.value
+    });
+  };
+
   render() {
     const { fullScreen } = this.props;
 
@@ -44,16 +73,30 @@ class Login extends Component {
           onClose={this.handleClose}
           aria-labelledby="responsive-dialog-title"
         >
-          <DialogTitle id="responsive-dialog-title">{"Use Google's location service?"}</DialogTitle>
+          <DialogTitle id="responsive-dialog-title">Login</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Let Google help apps determine location. This means sending anonymous location data to
-              Google, even when no apps are running.
+              <TextField
+                id="email-input"
+                label="Email"
+                className="navbar-dialog-input"
+                type="email"
+                margin="normal"
+                fullWidth
+                onChange={this.handleEmailChange}
+              />
+              <TextField
+                id="password-input"
+                label="Password"
+                className="navbar-dialog-input"
+                type="password"
+                fullWidth
+                margin="normal"
+                onChange={this.handlePasswordChange} 
+              />
             </DialogContentText>
+            <Button className="dialog-btn" onClick={this.handleLogin}>Submit</Button>
           </DialogContent>
-          <DialogActions>
-            
-          </DialogActions>
         </Dialog>
       </div>
     );

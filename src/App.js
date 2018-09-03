@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios  from 'axios';
 
-import { Button, Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import { Nav, Navbar, NavItem } from 'react-bootstrap';
+import Button from '@material-ui/core/Button';
 
 import Login 			from './components/Login';
 import Register 	from './components/Register';
@@ -22,7 +23,6 @@ class App extends Component {
     this.state = {
   		loggedIn : false,
    	};
-   	this.handleLogin = this.handleLogin.bind(this);
 	}
 
 	componentDidMount() {
@@ -31,20 +31,17 @@ class App extends Component {
 			if( localStorage.getItem('JWT') !== null ) {
 				axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('JWT');
 			  axios.get(SERVER_ADDRESS+'/refresh')
-				.then(function (response) {
-					console.log(response.data);
-					//localStorage.setItem('JWT', response.data);
+				.then((response) => {
+					this.handleLoggedIn(response.data.result.token);
 				})
-				.catch(function (error) {
+				.catch((error) => {
 					localStorage.removeItem('JWT');
 				});
-			} else {
-				
 			}
 		}
 	}
 
-	handleLogin(JWT) {
+	handleLoggedIn = (JWT) => {
 		// Store JWT
 		localStorage.setItem('JWT', JWT);
 		this.setState({
@@ -52,9 +49,38 @@ class App extends Component {
 		})
 	}
 
+	handleLogout = () => {
+		// delete JWT
+		localStorage.removeItem('JWT');
+		this.setState({
+			loggedIn: false
+		})
+	}
+
   render() {
-  	var LoginRender = null;
-  	
+  	var NavbarMenu = 	<Nav pullRight>
+									      <NavItem eventKey={1}>
+									        <Login loggedIn={this.handleLoggedIn} />
+									      </NavItem>
+									      <NavItem eventKey={2}>
+									        <Register register={this.handleRegister} />
+									      </NavItem>
+									      <NavItem eventKey={3}>
+									        <SubmitPost register={this.handleRegister} />
+									      </NavItem>
+									    </Nav>;
+
+		if(this.state.loggedIn) {
+			NavbarMenu = 	<Nav pullRight>
+									      <NavItem eventKey={1}>
+									        <SubmitPost JWT={localStorage.getItem('JWT')} />
+									      </NavItem>
+									      <NavItem eventKey={2}>
+        									<Button className="navbar-btn" onClick={this.handleLogout}>Logout</Button> 
+									      </NavItem>
+									    </Nav>;
+		}
+				  	
 
     return (
       <div className="App">
@@ -66,17 +92,7 @@ class App extends Component {
 				    <Navbar.Toggle />
 				  </Navbar.Header>
 				  <Navbar.Collapse>
-				    <Nav pullRight>
-				      <NavItem eventKey={1}>
-				        <Login login={this.handleLogin} />
-				      </NavItem>
-				      <NavItem eventKey={2}>
-				        <Register register={this.handleRegister} />
-				      </NavItem>
-				      <NavItem eventKey={3}>
-				        <SubmitPost register={this.handleRegister} />
-				      </NavItem>
-				    </Nav>
+				  	{NavbarMenu}
 				  </Navbar.Collapse>
 				</Navbar>
       </div>
