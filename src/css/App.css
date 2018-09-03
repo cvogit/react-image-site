@@ -1,0 +1,50 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 50px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.dialog-btn {
+  background-color: rgb(0, 153, 249) !important;
+  color: #fff !important;
+  margin: 16px 20px 0px 0px !important;
+  padding: 8px 16px;
+  min-width: 64px;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  min-height: 36px;
+  box-sizing: border-box;
+  line-height: 1.4em;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: inherit !important;
+  font-weight: 500;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.dialog-btn:hover {
+  background-color: rgb(0, 153, 249) !important;
+  color: #fff !important;
+}
