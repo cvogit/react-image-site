@@ -25,6 +25,12 @@ class Login extends Component {
    	};
 	}
 
+  componentWillUnmount() {
+    this.setState({
+      open: false
+    })
+  }
+
   handleClickOpen = () => {
     this.setState({ open: true });
   };

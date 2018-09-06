@@ -3,13 +3,11 @@ import axios  from 'axios';
 
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import withMobileDialog from '@material-ui/core/withMobileDialog';
+import TextField from '@material-ui/core/TextField';
 
+import ImageUpload from './ImageUpload';
+
+import PostIcon from '../images/icon.png';
 import '../css/Nav.css';
 
 const SERVER_ADDRESS = process.env.REACT_APP_TEST_VAR;
@@ -18,44 +16,65 @@ class SubmitPost extends Component {
 	constructor(props) {
 		super(props);
     this.state = {
-  		email: '',
-  		password: '',
-      password_confirmation: '',
-    	open: false
+      image_1: '',
+  		image_2: '',
+      title: '',
+      drawer: false
    	};
 	}
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
+  handleSetFirstImage = (imageBinary) => {
+    this.setState({ image_1: imageBinary });
   };
 
-  handleClose = () => {
-    this.setState({ open: false });
+  handleSetSecondImage = (imageBinary) => {
+    this.setState({ image_2: imageBinary });
+  };
+
+  handlePostTitleChange = (event) => {
+    this.setState({
+      title: event.target.value
+    });
+  };
+
+  handlePostSubmit = () => {
+    if( localStorage.getItem('JWT') !== null ) {
+
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('JWT');
+      axios.post(SERVER_ADDRESS+'/posts', {
+        image_1:  this.state.image_1,
+        image_2:  this.state.image_2,
+        title:    this.state.title
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }
   };
 
   render() {
     const { fullScreen } = this.props;
 
     return (
-      <div className="login-container">
-        <Button className="navbar-btn" onClick={this.handleClickOpen}>Submit</Button>
-        <Dialog
-          fullScreen={fullScreen}
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="responsive-dialog-title"
-        >
-          <DialogTitle id="responsive-dialog-title">{"Use Google's location service?"}</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Let Google help apps determine location. This means sending anonymous location data to
-              Google, even when no apps are running.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            
-          </DialogActions>
-        </Dialog>
+      <div className="submit-post-container">
+        <div className="submit-post-sub">
+          <TextField
+            className="submit-post-text"
+            label="Title"
+            fullWidth
+            onChange={this.handlePostTitleChange}
+          />
+        </div>
+        <div className="submit-post-main">
+          <ImageUpload className="submit-post-image-container" setBinary={this.handleSetFirstImage} />
+          <ImageUpload className="submit-post-image-container" setBinary={this.handleSetSecondImage} />
+        </div>
+        <div className="submit-post-sub">
+          <Button className="submit-post-btn" onClick={this.handlePostSubmit}>Submit</Button>
+        </div>
       </div>
     );
   }

@@ -8,6 +8,7 @@
     "react": "^16.4.2",
     "react-bootstrap": "^0.32.3",
     "react-dom": "^16.4.2",
+    "react-dropzone": "^5.0.1",
     "react-scripts": "1.1.5"
   },
   "scripts": {

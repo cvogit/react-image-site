@@ -22,6 +22,7 @@ class App extends Component {
 		super(props);
     this.state = {
   		loggedIn : false,
+  		mainContent: 'home'
    	};
 	}
 
@@ -41,13 +42,19 @@ class App extends Component {
 		}
 	}
 
+	handleChangeMainContent = (key) => {
+		this.setState({
+			mainContent: key
+		});
+	}
+
 	handleLoggedIn = (JWT) => {
 		// Store JWT
 		localStorage.setItem('JWT', JWT);
 		this.setState({
 			loggedIn: true
 		})
-	}
+	};
 
 	handleLogout = () => {
 		// delete JWT
@@ -55,36 +62,41 @@ class App extends Component {
 		this.setState({
 			loggedIn: false
 		})
-	}
+	};
 
   render() {
-  	var NavbarMenu = 	<Nav pullRight>
-									      <NavItem eventKey={1}>
-									        <Login loggedIn={this.handleLoggedIn} />
-									      </NavItem>
-									      <NavItem eventKey={2}>
-									        <Register register={this.handleRegister} />
-									      </NavItem>
-									      <NavItem eventKey={3}>
-									        <SubmitPost register={this.handleRegister} />
-									      </NavItem>
-									    </Nav>;
+  	var MainContent = null;
+  	var NavbarMenu = null;
+
+  	NavbarMenu = 	<Nav pullRight>
+							      <NavItem eventKey={1}>
+							        <Register register={this.handleRegister} />
+							      </NavItem>
+							      <NavItem eventKey={2}>
+							        <Login loggedIn={this.handleLoggedIn} />
+							      </NavItem>
+							    </Nav>;
 
 		if(this.state.loggedIn) {
 			NavbarMenu = 	<Nav pullRight>
-									      <NavItem eventKey={1}>
-									        <SubmitPost JWT={localStorage.getItem('JWT')} />
-									      </NavItem>
-									      <NavItem eventKey={2}>
-        									<Button className="navbar-btn" onClick={this.handleLogout}>Logout</Button> 
-									      </NavItem>
-									    </Nav>;
+								      <NavItem eventKey={1}>
+      									<Button className="navbar-btn" onClick={() => this.handleChangeMainContent('NewPost')}>Post</Button>
+								      </NavItem>
+								      <NavItem eventKey={2}>
+      									<Button className="navbar-btn" onClick={this.handleLogout}>Logout</Button> 
+								      </NavItem>
+								    </Nav>;
 		}
-				  	
+		
+		if ( this.state.mainContent === 'home') {
+			MainContent = <div />;
+		} else if ( this.state.mainContent === 'NewPost') {
+			MainContent = <SubmitPost />;
+		}
 
     return (
       <div className="App">
-				<Navbar inverse collapseOnSelect>
+				<Navbar className="main-nav" absolute inverse collapseOnSelect>
 				  <Navbar.Header>
 				    <Navbar.Brand>
 				      <a href="#brand">React-Bootstrap</a>
@@ -95,6 +107,7 @@ class App extends Component {
 				  	{NavbarMenu}
 				  </Navbar.Collapse>
 				</Navbar>
+				{MainContent}
       </div>
     );
   }
