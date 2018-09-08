@@ -37,6 +37,10 @@ class SubmitPost extends Component {
     });
   };
 
+  childAppChangeHome = (vote) => {
+    this.props.returnHome('Home');
+  };
+
   handlePostSubmit = () => {
     if( localStorage.getItem('JWT') !== null ) {
 
@@ -47,7 +51,7 @@ class SubmitPost extends Component {
         title:    this.state.title
       })
       .then((response) => {
-        console.log(response.data);
+        this.childAppChangeHome();
       })
       .catch((error) => {
         console.log(error);
@@ -66,6 +70,7 @@ class SubmitPost extends Component {
             label="Title"
             fullWidth
             onChange={this.handlePostTitleChange}
+            inputProps={{ maxLength: 128 }}
           />
         </div>
         <div className="submit-post-main">

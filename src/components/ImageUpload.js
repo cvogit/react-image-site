@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import Button from '@material-ui/core/Button';
 import Dropzone from 'react-dropzone';
 
 class ImageUpload extends Component {
@@ -23,13 +22,11 @@ class ImageUpload extends Component {
     const reader = new FileReader();
     reader.onload = (event) => {
       this.props.setBinary(event.target.result);
-      console.log(event.target.result);
     };
     reader.readAsDataURL(file);
   };
 
   render() {
-    const { fullScreen } = this.props;
 
     return (
       <div className="submit-post-image-container">

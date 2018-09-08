@@ -1,6 +1,7 @@
 .App {
   background-color: #c5c5c5;
   min-height: 100vh;
+  overflow: auto;
   text-align: center;
 }
 
@@ -52,6 +53,15 @@
 }
 
 /****************
+  Home.js
+****************/
+.posts-container {
+  background-color: #c5c5c5;
+  margin: 30px auto;
+  width:  70vw;
+}
+
+/****************
       Navbar
 *****************/
 .main-nav {
@@ -98,7 +108,7 @@
 }
 
 .submit-post-text > div {
-  font-size: 2.2em;
+  font-size: 1.2em;
 }
 
 .submit-post-btn {
@@ -122,6 +132,61 @@
   height: auto;
   width: 100%;
   max-height: 100%;
+}
+
+/***********
+  Post.js
+***********/
+.post {
+  background-color: #fff;
+  margin: 10px 0px;
+  overflow: auto;
+}
+
+.post-title {
+  float: left;
+  font-size: 1.5em;
+  margin: 1%;
+  text-align: left;
+  width: 98%;
+  word-wrap:break-word;
+}
+
+.post-image-container {
+  float: left;
+  width: 100%;
+}
+
+.post-content-sub {
+  margin: 0 1%;
+  border: 3px black solid;
+  float: left;
+  width: 48%;
+}
+
+.post-vote-button {
+  height: 100%;
+}
+
+.post-image {
+  float: left;
+  height: 300px;
+  width: 100%;
+}
+
+.post-votes {
+  float: left;
+  font-size: 32px;
+  margin: none;
+  width: 50%;
+}
+
+.green-font {
+  color: green;
+}
+
+.red-font {
+  color: red;
 }
 
 /* small screen landscape */
@@ -160,5 +225,11 @@ and (orientation : landscape) {
     left: 35%;
     top: 22.5vh;
     z-index: 2;
+  }
+
+  .posts-container {
+    background-color: #fff;
+    margin: 10px auto;
+    width:  90vw;
   }
 }

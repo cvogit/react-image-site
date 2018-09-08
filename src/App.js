@@ -6,23 +6,19 @@ import Button from '@material-ui/core/Button';
 
 import Login 			from './components/Login';
 import Register 	from './components/Register';
+import Home 			from './components/Home';
 import SubmitPost from './components/SubmitPost';
 
 import './css/App.css';
 
 const SERVER_ADDRESS = process.env.REACT_APP_TEST_VAR;
-const styles = {
-  root: {
-    flexGrow: 1,
-  },
-};
 
 class App extends Component {
 	constructor(props) {
 		super(props);
     this.state = {
   		loggedIn : false,
-  		mainContent: 'home'
+  		mainContent: 'Home'
    	};
 	}
 
@@ -68,6 +64,7 @@ class App extends Component {
   	var MainContent = null;
   	var NavbarMenu = null;
 
+  	// Navbar when no user is logged in
   	NavbarMenu = 	<Nav pullRight>
 							      <NavItem eventKey={1}>
 							        <Register register={this.handleRegister} />
@@ -88,18 +85,18 @@ class App extends Component {
 								    </Nav>;
 		}
 		
-		if ( this.state.mainContent === 'home') {
-			MainContent = <div />;
+		if ( this.state.mainContent === 'Home') {
+			MainContent = <Home />;
 		} else if ( this.state.mainContent === 'NewPost') {
-			MainContent = <SubmitPost />;
+			MainContent = <SubmitPost returnHome={this.handleChangeMainContent} />;
 		}
 
     return (
       <div className="App">
-				<Navbar className="main-nav" absolute inverse collapseOnSelect>
+				<Navbar className="main-nav" inverse collapseOnSelect>
 				  <Navbar.Header>
 				    <Navbar.Brand>
-				      <a href="#brand">React-Bootstrap</a>
+      				<Button className="navbar-btn" onClick={() => this.handleChangeMainContent('Home')}>Home</Button>
 				    </Navbar.Brand>
 				    <Navbar.Toggle />
 				  </Navbar.Header>
