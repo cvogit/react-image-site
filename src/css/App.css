@@ -210,6 +210,17 @@ and (orientation : landscape) {
   }
 }
 
+/**********
+  Footer.js
+**********/
+.footer {
+  color: #fff;
+  background-color: #000;
+  height: 20vh;
+  padding: 3vh;
+}
+
+
 /* small screen landscape portrait */
 @media only screen and (max-width: 640px) and (orientation : portrait) {
   .submit-post-image-container {

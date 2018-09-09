@@ -8,6 +8,7 @@ import Login 			from './components/Login';
 import Register 	from './components/Register';
 import Home 			from './components/Home';
 import SubmitPost from './components/SubmitPost';
+import Footer 		from './components/Footer';
 
 import './css/App.css';
 
@@ -105,6 +106,7 @@ class App extends Component {
 				  </Navbar.Collapse>
 				</Navbar>
 				{MainContent}
+				<Footer />
       </div>
     );
   }
