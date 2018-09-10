@@ -195,6 +195,22 @@
   color: red;
 }
 
+/*****************
+  Verification.js
+*****************/
+.verification-container {
+  text-align: center;
+  height: 200px;
+  width: 400px;
+  margin: 100px auto 0 auto;
+  padding: 40px 20px;
+  background-color: #fff;
+}
+
+.logo-2 {
+  height: 100%;
+}
+
 /**********
   Footer.js
 **********/
@@ -284,5 +300,14 @@ and (orientation : landscape) {
     float: left;
     height: auto;
     width: 85%;
+  }
+
+  .verification-container {
+    text-align: center;
+    height: 200px;
+    width: 90vw;
+    margin: 100px auto 0 auto;
+    padding: 50px 20px;
+    background-color: #fff;
   }
 }
