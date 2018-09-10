@@ -15,7 +15,7 @@ class Image extends Component {
     return (
       <div className="post-content-sub">
         <ButtonBase className="post-vote-button" onClick={() => this.childPostVote(this.props.voteId)} >
-          <img className="post-image" src={SERVER_ADDRESS+'/images/'+this.props.source} />
+          <img alt="vote" className="post-image" src={SERVER_ADDRESS+'/images/'+this.props.source} />
         </ButtonBase>
       </div>
     );

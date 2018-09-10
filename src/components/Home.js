@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import axios  from 'axios';
 
-import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import Pagination from "react-js-pagination";
 
-import Post     from './Post';
+import Post       from './Post';
 
 import '../css/Nav.css';
 
@@ -16,27 +14,43 @@ class Home extends Component {
 		super(props);
     this.state = {
       posts:    [],
-      finsihed: false
+      finished: false,
+      currentPage: 1,
+      perPageItem: 0,
+      totalItem:   0,
    	};
 	}
 
   componentDidMount() {
-
     // Fetch most recent posts
     axios.get(SERVER_ADDRESS+'/posts')
     .then((response) => {
-      this.handlePostLoading(response.data.result.posts, response.data.result.end);
+      this.handlePostLoading(response.data.result.posts);
     })
     .catch((error) => {
       // TODO display error
     });
   }
 
-  handlePostLoading = (posts, isLast) => {
-    console.log(posts);
+  handlePageChange = (pageNumber) => {
     this.setState({
-      posts:    posts,
-      finished: isLast
+      activePage: pageNumber
+    });
+
+    axios.get(SERVER_ADDRESS+'/posts?page='+pageNumber)
+    .then((response) => {
+      this.handlePostLoading(response.data.result.posts);
+    })
+    .catch((error) => {
+      // TODO display error
+    });
+  };
+
+  handlePostLoading = (posts) => {
+    this.setState({
+      posts:        posts.data,
+      currentPage:  posts.current_page,
+      totalItem:    posts.total
     });
   };
 
@@ -48,7 +62,16 @@ class Home extends Component {
 
     return (
       <div className="posts-container">
-        {Posts}
+        <div className="posts">
+          {Posts}
+        </div>
+        <Pagination
+          activePage={this.state.currentPage}
+          itemsCountPerPage={10}
+          totalItemsCount={this.state.totalItem}
+          pageRangeDisplayed={5}
+          onChange={this.handlePageChange}
+        />
       </div>
     );
   }

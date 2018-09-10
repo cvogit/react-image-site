@@ -1,13 +1,12 @@
 .App {
   background-color: #c5c5c5;
-  min-height: 100vh;
+  min-height: 85vh;
   overflow: auto;
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.logo {
+  height: 50px;
 }
 
 .App-header {
@@ -58,7 +57,14 @@
 .posts-container {
   background-color: #c5c5c5;
   margin: 30px auto;
-  width:  70vw;
+  width: 70vw;
+  min-height: 70vh;
+  position: relative;
+}
+
+.posts {
+  width: 100%;
+  min-height: 60vh;
 }
 
 /****************
@@ -75,7 +81,7 @@
 
 .submit-post-container {
   background-color: #fff;
-  margin: 30px auto;
+  margin: 30px auto 12vh auto;
   width:  50vw;
 }
 
@@ -189,6 +195,17 @@
   color: red;
 }
 
+/**********
+  Footer.js
+**********/
+.footer {
+  color: #fff;
+  background-color: #000;
+  height: 15vh;
+  padding: 3vh;
+  text-align: center;
+}
+
 /* small screen landscape */
 @media only screen 
 and (min-width : 320px) 
@@ -208,18 +225,21 @@ and (orientation : landscape) {
     max-height: 200px;
     padding: 5px 2vw;
   }
-}
 
-/**********
-  Footer.js
-**********/
-.footer {
-  color: #fff;
-  background-color: #000;
-  height: 20vh;
-  padding: 3vh;
-}
+  .post-content-sub {
+    margin: 0 1%;
+    border: 3px black solid;
+    float: left;
+    width: 48%;
+    height: 40vh;
+  }
 
+  .post-image {
+    float: left;
+    height: auto;
+    width: 85%;
+  }
+}
 
 /* small screen landscape portrait */
 @media only screen and (max-width: 640px) and (orientation : portrait) {
@@ -239,8 +259,30 @@ and (orientation : landscape) {
   }
 
   .posts-container {
+    background-color: #c5c5c5;
+    margin: 30px auto;
+    width: 90vw;
+    min-height: 70vh;
+    position: relative;
+  }
+
+  .post {
     background-color: #fff;
-    margin: 10px auto;
-    width:  90vw;
+    margin: 10px 0px;
+    overflow: auto;
+  }
+
+  .post-content-sub {
+    margin: 0 1%;
+    border: 3px black solid;
+    float: left;
+    width: 48%;
+    height: 20vh;
+  }
+
+  .post-image {
+    float: left;
+    height: auto;
+    width: 85%;
   }
 }

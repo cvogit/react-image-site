@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import axios  from 'axios';
 
-import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 import ImageUpload from './ImageUpload';
 
-import PostIcon from '../images/icon.png';
 import '../css/Nav.css';
 
 const SERVER_ADDRESS = process.env.REACT_APP_TEST_VAR;
@@ -60,7 +58,6 @@ class SubmitPost extends Component {
   };
 
   render() {
-    const { fullScreen } = this.props;
 
     return (
       <div className="submit-post-container">

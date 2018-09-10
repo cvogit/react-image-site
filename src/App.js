@@ -2,14 +2,18 @@ import React, { Component } from 'react';
 import axios  from 'axios';
 
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 
 import Login 			from './components/Login';
 import Register 	from './components/Register';
 import Home 			from './components/Home';
+import Verification	from './components/Verification';
+
 import SubmitPost from './components/SubmitPost';
 import Footer 		from './components/Footer';
 
+import logo 		from './images/logo.png';
 import './css/App.css';
 
 const SERVER_ADDRESS = process.env.REACT_APP_TEST_VAR;
@@ -87,27 +91,34 @@ class App extends Component {
 		}
 		
 		if ( this.state.mainContent === 'Home') {
-			MainContent = <Home />;
+			MainContent = <Router>
+									    <div>
+									      <Route exact path="/" component={Home} />
+									      <Route exact path="/verification/:id" component={Verification} />
+									    </div>
+									  </Router>;
 		} else if ( this.state.mainContent === 'NewPost') {
 			MainContent = <SubmitPost returnHome={this.handleChangeMainContent} />;
 		}
 
     return (
-      <div className="App">
-				<Navbar className="main-nav" inverse collapseOnSelect>
-				  <Navbar.Header>
-				    <Navbar.Brand>
-      				<Button className="navbar-btn" onClick={() => this.handleChangeMainContent('Home')}>Home</Button>
-				    </Navbar.Brand>
-				    <Navbar.Toggle />
-				  </Navbar.Header>
-				  <Navbar.Collapse>
-				  	{NavbarMenu}
-				  </Navbar.Collapse>
-				</Navbar>
-				{MainContent}
-				<Footer />
-      </div>
+    	<div>
+	      <div className="App">
+					<Navbar className="main-nav" inverse collapseOnSelect>
+					  <Navbar.Header>
+					    <Navbar.Brand>
+	      				<a href="/"><img className="logo" src={logo} alt="logo" /></a>	
+	      			</Navbar.Brand>
+					    <Navbar.Toggle />
+					  </Navbar.Header>
+					  <Navbar.Collapse>
+					  	{NavbarMenu}
+					  </Navbar.Collapse>
+					</Navbar>
+					{MainContent}
+	      </div>
+	      <Footer />
+	    </div>
     );
   }
 }

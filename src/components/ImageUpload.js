@@ -34,7 +34,7 @@ class ImageUpload extends Component {
         accept="image/jpeg, image/png"
         onDrop={this.handleImageUpload.bind(this)}
         >
-        <img className="image-preview" src={this.state.imagePreviewUrl} />
+        <img alt="upload" className="image-preview" src={this.state.imagePreviewUrl} />
         </Dropzone>
       </div>
     );
