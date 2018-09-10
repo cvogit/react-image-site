@@ -52,10 +52,10 @@ class Home extends Component {
       currentPage:  posts.current_page,
       totalItem:    posts.total
     });
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
   };
 
   render() {
-
     var Posts = this.state.posts.map(function(post, i){
                   return <Post post={post} key={i} />
                 });
