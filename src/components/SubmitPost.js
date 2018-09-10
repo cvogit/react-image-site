@@ -3,6 +3,7 @@ import axios  from 'axios';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Snackbar from '@material-ui/core/Snackbar';
 
 import ImageUpload from './ImageUpload';
 
@@ -17,7 +18,9 @@ class SubmitPost extends Component {
       image_1: '',
   		image_2: '',
       title: '',
-      drawer: false
+      drawer: false,
+      snackbarOpen: false,
+      snackbarMessage: ''
    	};
 	}
 
@@ -39,6 +42,25 @@ class SubmitPost extends Component {
     this.props.returnHome('Home');
   };
 
+  handleSnackbarOpen = () => {
+    this.setState({
+      snackbarOpen: true 
+    });
+  };
+
+  handleSnackbarClose = () => {
+    this.setState({
+      snackbarOpen: false 
+    });
+  };
+
+  handleSnackbarMessage = (message) => {
+    console.log(message);
+    this.setState({
+      snackbarMessage: message
+    });
+  };
+
   handlePostSubmit = () => {
     if( localStorage.getItem('JWT') !== null ) {
 
@@ -49,10 +71,13 @@ class SubmitPost extends Component {
         title:    this.state.title
       })
       .then((response) => {
+        this.handleSnackbarMessage("Post submitted.");
+        this.handleSnackbarOpen();
         this.childAppChangeHome();
       })
       .catch((error) => {
-        console.log(error);
+        this.handleSnackbarMessage("Unable to submit post.");
+        this.handleSnackbarOpen();
       });
     }
   };
@@ -77,6 +102,16 @@ class SubmitPost extends Component {
         <div className="submit-post-sub">
           <Button className="submit-post-btn" onClick={this.handlePostSubmit}>Submit</Button>
         </div>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={this.state.snackbarOpen}
+          autoHideDuration={3000}
+          onClose={this.handleSnackbarClose}
+          message={<h5>{this.state.snackbarMessage}</h5>}
+        />
       </div>
     );
   }

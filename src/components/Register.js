@@ -7,7 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
-
+import Snackbar from '@material-ui/core/Snackbar';
 
 import '../css/Nav.css';
 
@@ -20,7 +20,9 @@ class Register extends Component {
   		email: '',
   		password: '',
       password_confirmation: '',
-    	open: false
+    	open: false,
+      snackbarOpen: false,
+      snackbarMessage: ''
    	};
 	}
 
@@ -32,6 +34,25 @@ class Register extends Component {
     this.setState({ open: false });
   };
 
+  handleSnackbarOpen = () => {
+    this.setState({
+      snackbarOpen: true 
+    });
+  };
+
+  handleSnackbarClose = () => {
+    this.setState({
+      snackbarOpen: false 
+    });
+  };
+
+  handleSnackbarMessage = (message) => {
+    console.log(message);
+    this.setState({
+      snackbarMessage: message
+    });
+  };
+
   handleRegister = () => {
     this.handleClose(); 
     
@@ -41,10 +62,13 @@ class Register extends Component {
       password_confirmation:  this.state.password_confirmation,
     })
     .then((response) => {
-      this.handleClose(); 
+      this.handleClose();
+      this.handleSnackbarMessage(response.data.message);
+      this.handleSnackbarOpen();
     })
     .catch((error) => {
-      console.log(error.response);
+      this.handleSnackbarMessage("Server unavailable or email is already signed up with.");
+      this.handleSnackbarOpen();
     });
   };
 
@@ -113,6 +137,16 @@ class Register extends Component {
             <Button className="dialog-btn" onClick={this.handleRegister}>Submit</Button>
           </DialogContent>
         </Dialog>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={this.state.snackbarOpen}
+          autoHideDuration={3000}
+          onClose={this.handleSnackbarClose}
+          message={<h5>{this.state.snackbarMessage}</h5>}
+        />
       </div>
     );
   }

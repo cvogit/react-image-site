@@ -7,6 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import Snackbar from '@material-ui/core/Snackbar';
 
 import '../css/Nav.css';
 
@@ -18,7 +19,9 @@ class Login extends Component {
     this.state = {
   		email: '',
   		password: '',
-    	open: false
+    	open: false,
+      snackbarOpen: false,
+      snackbarMessage: ''
    	};
 	}
 
@@ -36,6 +39,25 @@ class Login extends Component {
     this.setState({ open: false });
   };
 
+  handleSnackbarOpen = () => {
+    this.setState({
+      snackbarOpen: true 
+    });
+  };
+
+  handleSnackbarClose = () => {
+    this.setState({
+      snackbarOpen: false 
+    });
+  };
+
+  handleSnackbarMessage = (message) => {
+    console.log(message);
+    this.setState({
+      snackbarMessage: message
+    });
+  };
+
   handleLogin  = () => {
     axios.get(SERVER_ADDRESS+'/login', {
       params: {
@@ -46,9 +68,12 @@ class Login extends Component {
     .then((response) => {
       this.props.loggedIn(response.data.result.token);
       this.handleClose(); 
+      this.handleSnackbarMessage("Logged in.");
+      this.handleSnackbarOpen();
     })
     .catch((error) => {
-      console.log(error.response);
+      this.handleSnackbarMessage("Cannot log in. If the email is signed up with check your email for verification.");
+      this.handleSnackbarOpen();
     });
   };
 
@@ -101,6 +126,16 @@ class Login extends Component {
             <Button className="dialog-btn" onClick={this.handleLogin}>Submit</Button>
           </DialogContent>
         </Dialog>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={this.state.snackbarOpen}
+          autoHideDuration={3000}
+          onClose={this.handleSnackbarClose}
+          message={<h5>{this.state.snackbarMessage}</h5>}
+        />
       </div>
     );
   }
