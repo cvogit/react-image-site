@@ -55,7 +55,6 @@ class SubmitPost extends Component {
   };
 
   handleSnackbarMessage = (message) => {
-    console.log(message);
     this.setState({
       snackbarMessage: message
     });

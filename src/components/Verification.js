@@ -14,11 +14,14 @@ class Verification extends Component {
 	}
 
   componentDidMount() {
-  	axios.post(SERVER_ADDRESS+this.props.match.url)
+
+  	axios.put(SERVER_ADDRESS+this.props.match.url)
     .then((response) => {
-    	this.setState({
+	if (response.data.message === "Verification success!" ) {
+    	    this.setState({
     		message: 'success'
-    	})
+    	    })
+	}
     })
     .catch((error) => {
       console.log(error);

@@ -67,6 +67,7 @@ class Register extends Component {
       this.handleSnackbarOpen();
     })
     .catch((error) => {
+	console.log(error);
       this.handleSnackbarMessage("Server unavailable or email is already signed up with.");
       this.handleSnackbarOpen();
     });
