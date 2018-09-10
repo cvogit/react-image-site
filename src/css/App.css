@@ -241,6 +241,14 @@ and (orientation : landscape) {
     padding: 5px 2vw;
   }
 
+  .posts-container {
+    background-color: #c5c5c5;
+    margin: 30px auto;
+    width: 90vw;
+    min-height: 70vh;
+    position: relative;
+  }
+
   .post-content-sub {
     margin: 0 1%;
     border: 3px black solid;
@@ -251,8 +259,16 @@ and (orientation : landscape) {
 
   .post-image {
     float: left;
-    height: auto;
-    width: 85%;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .footer {
+    color: #fff;
+    background-color: #000;
+    height: 21vh;
+    padding: 3vh;
+    text-align: center;
   }
 }
 
@@ -297,8 +313,8 @@ and (orientation : landscape) {
 
   .post-image {
     float: left;
-    height: auto;
-    width: 85%;
+    max-width: 100%;
+    max-height: 100%;
   }
 
   .verification-container {
@@ -308,5 +324,13 @@ and (orientation : landscape) {
     margin: 100px auto 0 auto;
     padding: 50px 20px;
     background-color: #fff;
+  }
+
+  .footer {
+    color: #fff;
+    background-color: #000;
+    height: 21vh;
+    padding: 3vh;
+    text-align: center;
   }
 }
