@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios  from 'axios';
 
+import Snackbar from '@material-ui/core/Snackbar';
+
 import Image from './Image';
 
 const SERVER_ADDRESS = process.env.REACT_APP_TEST_VAR;
@@ -11,7 +13,9 @@ class Post extends Component {
     this.state = {
       image_1_votes: '',
       image_2_votes: '',
-      votedFor: 0
+      votedFor: 0,
+      snackbarOpen: false,
+      snackbarMessage: ''
    	};
 
     this.handlePostVote = this.handlePostVote.bind(this);
@@ -24,8 +28,29 @@ class Post extends Component {
     });
   }
 
+  handleSnackbarOpen = () => {
+    this.setState({
+      snackbarOpen: true 
+    });
+  };
+
+  handleSnackbarClose = () => {
+    this.setState({
+      snackbarOpen: false 
+    });
+  };
+
+  handleSnackbarMessage = (message) => {
+    console.log(message);
+    this.setState({
+      snackbarMessage: message
+    });
+  };
+
   handlePostVote(vote) {
-    if(localStorage.getItem('loggedIn')) {
+
+    // Only cast the vote if the user is logged in
+    if(localStorage.getItem('loggedIn') === 'true') {
       if(this.state.votedFor === 0) {
         if(vote === 1) {
           this.setState({
@@ -51,19 +76,24 @@ class Post extends Component {
           }
         }
       }
-    }
-    
-    this.setState({
-      votedFor: vote
-    });
-
-    if( localStorage.getItem('JWT') !== null ) {
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('JWT');
-      axios.put(SERVER_ADDRESS+'/posts/'+this.props.post.id+'/vote/'+vote)
-      .then((response) => {
-      })
-      .catch((error) => {
+      this.setState({
+        votedFor: vote
       });
+
+      if( localStorage.getItem('JWT') !== null ) {
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('JWT');
+        axios.put(SERVER_ADDRESS+'/posts/'+this.props.post.id+'/vote/'+vote)
+        .then((response) => {
+          
+        })
+        .catch((error) => {
+          this.handleSnackbarMessage("Unable to vote, connection error");
+          this.handleSnackbarOpen();
+        });
+      }
+    } else {
+      this.handleSnackbarMessage("Log in to vote on posts.");
+      this.handleSnackbarOpen();
     }
   }
 
@@ -79,7 +109,6 @@ class Post extends Component {
                       </div>;
     // Change the vote text color depending on which image is voted higher
     if(this.state.image_1_votes > this.state.image_2_votes) {
-      console.log("ok");
       renderVotes =   <div className="post-vote-container">
                         <div className="post-votes green-font">
                           {this.state.image_1_votes}
@@ -107,6 +136,16 @@ class Post extends Component {
           <Image voteId={2} source={this.props.post.image_2_id} handleVote={this.handlePostVote} />
         </div>
         {renderVotes}
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={this.state.snackbarOpen}
+          autoHideDuration={3000}
+          onClose={this.handleSnackbarClose}
+          message={<h5>{this.state.snackbarMessage}</h5>}
+        />
       </div>
     );
   }

@@ -52,6 +52,7 @@ class App extends Component {
 	handleLoggedIn = (JWT) => {
 		// Store JWT
 		localStorage.setItem('JWT', JWT);
+		localStorage.setItem('loggedIn', true);
 		this.setState({
 			loggedIn: true
 		})
@@ -60,6 +61,7 @@ class App extends Component {
 	handleLogout = () => {
 		// delete JWT
 		localStorage.removeItem('JWT');
+		localStorage.setItem('loggedIn', false);
 		this.setState({
 			loggedIn: false
 		})
